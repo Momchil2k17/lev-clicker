@@ -1,37 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Clicker<span class="lev-count">0</span></title>
+    <title>Clicker</title>
 </head>
+
 <body>
     <section>
         <div class="main">
             <div class="left">
-                <h3> Пари: <span class="lev-count">0</span></h3>
-                <h3>  <span class="lev-per-sec">0</span> лева/с</h3>
-                <img src="images/lew.png" alt="" class="lev-image" onClick="incrementLev()" draggable="false">
+                <h3> <span class="lev-count">0</span> лева</h3>
+                <h4> <span class="lev-per-sec">0</span> лева/с</h4>
+                <div class="lev-container">
+                    <img src="images/lew.png" alt="" class="lev-image" onClick="incrementLev()" draggable="false">
+                    <div class="mini-levs">
+
+                    </div>
+                </div>
             </div>
             <div class="right">
-                <div class="upgrade" onclick="buy2Leva()">
-                    <div class="left-section">
-                        <img src="images/2 лева.png" alt="" class="upgrade-image">
-                    </div>
-                    <div class="mid-section">
-                        <h4>Два лева</h4>
-                        <div class="cost-info">
-                            <p>Цена: <span class="lev-cost-2">10</span></p>
-                            <img src="images/lew.png" alt="" class="lev-img">
+                <div class="upgrade-tab">
+                    <div class="upgrade" onclick="buy10st()">
+                        <div class="left-section">
+                            <img src="images/10ст.png" alt="" class="upgrade-image">
+                        </div>
+                        <div class="mid-section">
+                            <h4>Десет стотинки</h4>
+                            <div class="cost-info">
+                                <p>Цена: <span class="lev-cost-10st">10</span></p>
+                                <img src="images/lew.png" alt="" class="lev-img">
+                            </div>
+                        </div>
+                        <div class="right-section">
+                            <p>Ниво <span class="level-lev-10st">0</span></p>
+                        </div>
+                        <div class="next-level-info">
+                            <p>+<span class="increase-lev-10st">0.10</span> лева <br> за секунда</p>
                         </div>
                     </div>
-                    <div class="right-section">
-                        <p>Level <span class="level-lev-2">0</span></p>
+                    <div class="upgrade" onclick="buy2Leva()">
+                        <div class="left-section">
+                            <img src="images/2 лева.png" alt="" class="upgrade-image">
+                        </div>
+                        <div class="mid-section">
+                            <h4>Два лева</h4>
+                            <div class="cost-info">
+                                <p>Цена: <span class="lev-cost-2">100</span></p>
+                                <img src="images/lew.png" alt="" class="lev-img">
+                            </div>
+                        </div>
+                        <div class="right-section">
+                            <p>Ниво <span class="level-lev-2">0</span></p>
+                        </div>
+                        <div class="next-level-info">
+                            <p>+<span class="increase-lev-2">2</span> лева <br> за секунда</p>
+                        </div>
                     </div>
-                    <div class="next-level-info">
-                        <p>+<span class="increase-lev-2">2</span> лева <br> за секунда</p>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -39,4 +67,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
