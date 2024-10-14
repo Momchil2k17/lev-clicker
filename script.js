@@ -1,8 +1,8 @@
 //money per sec function
-let money = 110;
+let money = 0;
 let moneyPerSecond = 0;
 let displayMoney = 0;
-let moneyPerClick = 1;
+let moneyPerClick = 1041;
 const moneyElement = document.querySelector(".lev-count");
 const moneyPerSecondElement = document.querySelector('.lev-per-sec');
 
@@ -26,10 +26,35 @@ function updateTitle() {
     document.title = `${Math.floor(money).toLocaleString()} лева`; // Update title with current money
   }
 
-function incrementLev(){
+let levImgContainter=document.querySelector('.lev-container')
+
+function incrementLev(event){
     money+=moneyPerClick;
     updateMoneyDisplay();
+
+    const x=event.offsetX
+    const y=event.offsetY
+
+    const div=document.createElement('div')
+    div.innerHTML = `
+  <span style="display: flex; align-items: center;">
+    +${Math.round(moneyPerClick)}
+    <img src="images/lew.png" alt="lew" style="width: 20px; height: 20px; margin-left: 5px;">
+  </span>
+`;
+    div.style.cssText = `color: #D6ED17; position: absolute; top: ${y}px; left: ${x}px; font-size: 25px; pointer-events: none;`
+    levImgContainter.appendChild(div)
+
+    div.classList.add('fade-up')
+
+    divTimeout(div)
     }
+
+    const divTimeout = (div) => {
+      setTimeout(() => {
+        div.remove()
+      }, 800)
+    }    
 // Run the increment function every second
 setInterval(incrementMoney, 1000);
 setInterval(updateTitle, 1000);
