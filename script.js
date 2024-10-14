@@ -1,5 +1,5 @@
 //money per sec function
-let money = 0;
+let money = 110;
 let moneyPerSecond = 0;
 let displayMoney = 0;
 let moneyPerClick = 1;
@@ -56,8 +56,30 @@ function buy10st(){
 
     }
 }
+//buy 20 st
+let upgradeCostLev20st=100;
+
+let st20Level=document.querySelector(".level-lev-20st")
+const upgradeCost20stElement = document.querySelector('.lev-cost-20st');
+
+function updateUpgrade20stDisplay() {
+    upgradeCost20stElement.textContent = upgradeCostLev20st.toFixed(2);
+  }
+
+function buy20st(){
+    if(money>=upgradeCostLev20st){
+        money-=upgradeCostLev20st
+        upgradeCostLev20st*=1.15
+
+        st20Level.innerHTML++
+        moneyPerSecond += 0.2; // Increment money per second by 2
+        updateMoneyDisplay();
+        updateUpgrade20stDisplay()
+
+    }
+}
 //buy 2 leva 
-let upgradeCostLev2=100;
+let upgradeCostLev2=1000;
 
 let lev2Level=document.querySelector(".level-lev-2")
 const upgradeCostLev2Element = document.querySelector('.lev-cost-2');
