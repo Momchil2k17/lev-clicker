@@ -179,3 +179,74 @@ body{
       opacity: 0;
     }
   }
+
+.util-buttons {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.util-button {
+  padding: 8px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  border-radius: 6px;
+}
+
+.util-button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}  
+
+
+/* Style for the popup (modal) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0,0,0,0.5); /* Black with opacity */
+}
+
+/* Modal content (the white box) */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons inside the modal */
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-buttons button.confirm {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.modal-buttons button.cancel {
+    background-color: #f44336; /* Red */
+    color: white;
+}

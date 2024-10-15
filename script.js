@@ -2,126 +2,194 @@
 let money = 0;
 let moneyPerSecond = 0;
 let displayMoney = 0;
-let moneyPerClick = 1041;
+let moneyPerClick = 1;
 const moneyElement = document.querySelector(".lev-count");
 const moneyPerSecondElement = document.querySelector('.lev-per-sec');
+
+const upgrades = [
+  {
+    name: '10st',
+    cost: document.querySelector('.lev-cost-10st'),
+    parsedCost: parseFloat(document.querySelector(".lev-cost-10st").innerHTML),
+    level: document.querySelector(".level-lev-10st"),
+    costMultiplier: 1.12,
+    mPS: 0.1
+  },
+  {
+    name: '20st',
+    cost: document.querySelector('.lev-cost-20st'),
+    parsedCost: parseFloat(document.querySelector(".lev-cost-20st").innerHTML),
+    level: document.querySelector(".level-lev-20st"),
+    costMultiplier: 1.12,
+    mPS: 0.2
+  },
+  {
+    name: '2lv',
+    cost: document.querySelector('.lev-cost-2'),
+    parsedCost: parseFloat(document.querySelector(".lev-cost-2").innerHTML),
+    level: document.querySelector(".level-lev-2"),
+    costMultiplier: 1.12,
+    mPS: 2
+  },
+
+]
+
 
 // Update money display
 function updateMoneyDisplay() {
   moneyElement.textContent = money.toFixed(2);
   moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
-  moneyElement.classList.add('animated');
-  setTimeout(() => {
-    moneyElement.classList.remove('animated');
-}, 100); // Match this duration with your CSS animation duration
+  //   moneyElement.classList.add('animated');
+  //   setTimeout(() => {
+  //     moneyElement.classList.remove('animated');
+  // }, 100); // Match this duration with your CSS animation duration
 }
 
 // Increment money by money per second
 function incrementMoney() {
-  money += moneyPerSecond;
+  money += moneyPerSecond / 10;
   updateMoneyDisplay();
 }
 
 function updateTitle() {
-    document.title = `${Math.floor(money).toLocaleString()} лева`; // Update title with current money
-  }
+  document.title = `${Math.floor(money).toLocaleString()} лева`; // Update title with current money
+}
 
-let levImgContainter=document.querySelector('.lev-container')
+let levImgContainter = document.querySelector('.lev-container')
 
-function incrementLev(event){
-    money+=moneyPerClick;
-    updateMoneyDisplay();
+function incrementLev(event) {
+  money += moneyPerClick;
+  updateMoneyDisplay();
 
-    const x=event.offsetX
-    const y=event.offsetY
+  const x = event.offsetX
+  const y = event.offsetY
 
-    const div=document.createElement('div')
-    div.innerHTML = `
+  const div = document.createElement('div')
+  div.innerHTML = `
   <span style="display: flex; align-items: center;">
     +${Math.round(moneyPerClick)}
     <img src="images/lew.png" alt="lew" style="width: 20px; height: 20px; margin-left: 5px;">
   </span>
 `;
-    div.style.cssText = `color: #D6ED17; position: absolute; top: ${y}px; left: ${x}px; font-size: 25px; pointer-events: none;`
-    levImgContainter.appendChild(div)
+  div.style.cssText = `color: #D6ED17; position: absolute; top: ${y}px; left: ${x}px; font-size: 25px; pointer-events: none;`
+  levImgContainter.appendChild(div)
 
-    div.classList.add('fade-up')
+  div.classList.add('fade-up')
 
-    divTimeout(div)
-    }
+  divTimeout(div)
+}
 
-    const divTimeout = (div) => {
-      setTimeout(() => {
-        div.remove()
-      }, 800)
-    }    
+const divTimeout = (div) => {
+  setTimeout(() => {
+    div.remove()
+  }, 800)
+}
 // Run the increment function every second
-setInterval(incrementMoney, 1000);
+setInterval(incrementMoney, 100);
 setInterval(updateTitle, 1000);
 
-//buy 10 st
-let upgradeCostLev10st=10;
+function buyUpgrade(upgrade) {
+  const mU = upgrades.find((u) => {
+    if (u.name == upgrade) return u
+  })
 
-let st10Level=document.querySelector(".level-lev-10st")
-const upgradeCost10stElement = document.querySelector('.lev-cost-10st');
+  if (money >= mU.parsedCost) {
+    money -= mU.parsedCost;
+    mU.level.innerHTML++;
 
-function updateUpgrade10stDisplay() {
-    upgradeCost10stElement.textContent = upgradeCostLev10st.toFixed(2);
+    mU.parsedCost *= mU.costMultiplier;
+    mU.cost.innerHTML = mU.parsedCost.toFixed(2);
+    moneyPerSecond += mU.mPS;
+    updateMoneyDisplay();
   }
-
-function buy10st(){
-    if(money>=upgradeCostLev10st){
-        money-=upgradeCostLev10st
-        upgradeCostLev10st*=1.15
-
-        st10Level.innerHTML++
-        moneyPerSecond += 0.1; // Increment money per second by 2
-        updateMoneyDisplay();
-        updateUpgrade10stDisplay()
-
-    }
 }
-//buy 20 st
-let upgradeCostLev20st=100;
 
-let st20Level=document.querySelector(".level-lev-20st")
-const upgradeCost20stElement = document.querySelector('.lev-cost-20st');
+function save() {
+  localStorage.clear()
 
-function updateUpgrade20stDisplay() {
-    upgradeCost20stElement.textContent = upgradeCostLev20st.toFixed(2);
-  }
+  upgrades.map((upgrade) => {
 
-function buy20st(){
-    if(money>=upgradeCostLev20st){
-        money-=upgradeCostLev20st
-        upgradeCostLev20st*=1.15
+    const obj = JSON.stringify({
+      parsedLevel: parseFloat(upgrade.level.innerHTML),
+      parsedCost: upgrade.parsedCost,
+    })
 
-        st20Level.innerHTML++
-        moneyPerSecond += 0.2; // Increment money per second by 2
-        updateMoneyDisplay();
-        updateUpgrade20stDisplay()
+    localStorage.setItem(upgrade.name, obj)
 
-    }
+  })
+
+  localStorage.setItem('mnPerClick', JSON.stringify(moneyPerClick))
+  localStorage.setItem('mnPerSecond', JSON.stringify(moneyPerSecond))
+  localStorage.setItem('money', JSON.stringify(money))
 }
-//buy 2 leva 
-let upgradeCostLev2=1000;
 
-let lev2Level=document.querySelector(".level-lev-2")
-const upgradeCostLev2Element = document.querySelector('.lev-cost-2');
+const saveButton = document.getElementById('saveButton');
+const saveModal = document.getElementById('saveModal');
+const confirmSave = document.getElementById('confirmSave');
+const cancelSave = document.getElementById('cancelSave');
 
-function updateUpgradeLev2Display() {
-    upgradeCostLev2Element.textContent = upgradeCostLev2.toFixed(2);
+// When the "Save" button is clicked, show the modal
+saveButton.addEventListener('click', function () {
+  saveModal.style.display = 'block'; // Show the modal
+});
+
+// When the user clicks "Yes, Save", close the modal and confirm save
+confirmSave.addEventListener('click', function () {
+  saveModal.style.display = 'none'; // Hide the modal
+  alert("Save confirmed!"); // You can replace this with actual save logic
+  save()
+});
+
+// When the user clicks "Cancel", close the modal
+cancelSave.addEventListener('click', function () {
+  saveModal.style.display = 'none'; // Hide the modal
+  alert("Save cancelled."); // Optionally show a message for cancellation
+});
+
+// Close the modal if the user clicks outside of the modal content
+window.addEventListener('click', function(event) {
+  if (event.target == saveModal) {
+      saveModal.style.display = 'none';
   }
+  if (event.target == loadModal) {
+      loadModal.style.display = 'none';
+  }
+});
 
-function buy2Leva(){
-    if(money>=upgradeCostLev2){
-        money-=upgradeCostLev2
-        upgradeCostLev2*=1.15
+const loadButton = document.getElementById('loadButton');
+const loadModal = document.getElementById('loadModal');
+const confirmLoad = document.getElementById('confirmLoad');
+const cancelLoad = document.getElementById('cancelLoad');
 
-        lev2Level.innerHTML++
-        moneyPerSecond += 2; // Increment money per second by 2
-        updateMoneyDisplay();
-        updateUpgradeLev2Display()
+loadButton.addEventListener('click', function () {
+  loadModal.style.display = 'block'; // Show the load modal
+});
 
-    }
+confirmLoad.addEventListener('click', function () {
+  loadModal.style.display = 'none'; // Hide the modal
+  alert("Load confirmed!"); // You can replace this with actual load logic
+  load()
+});
+
+cancelLoad.addEventListener('click', function () {
+  loadModal.style.display = 'none'; // Hide the modal
+  alert("Load cancelled.");
+});
+
+function load() {
+  upgrades.map((upgrade) => {
+    const savedValues = JSON.parse(localStorage.getItem(upgrade.name))
+
+    upgrade.parsedCost = savedValues.parsedCost
+
+    upgrade.level.innerHTML = savedValues.parsedLevel
+    upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2)
+  })
+
+  moneyPerClick = JSON.parse(localStorage.getItem('mnPerClick'))
+  moneyPerSecond = JSON.parse(localStorage.getItem('mnPerSecond'))
+  money = JSON.parse(localStorage.getItem('money'))
+
+  moneyElement.textContent = money.toFixed(2);
+  moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
 }
