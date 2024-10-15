@@ -15,72 +15,37 @@
                 <h3> <span class="lev-count">0.00</span> лева</h3>
                 <h4> <span class="lev-per-sec">0.00</span> лева/с</h4>
                 <div class="lev-container">
-                    <img src="images/lew.png" alt="" class="lev-image" onClick="incrementLev(event)" draggable="false">
-                   
+                    <img src="images/1lv.png" alt="" class="lev-image" onClick="incrementLev(event)" draggable="false">
                 </div>
             </div>
-            
-            <div class="right">
-                <div class="upgrade-tab">
-                    <div class="upgrade" onclick="buyUpgrade('10st')">
+            <script id="upgrade-template" type="text/template">
+                   <div class="upgrade" onclick="buyUpgrade('{{name}}')">
                         <div class="left-section">
-                            <img src="images/10ст.png" alt="" class="upgrade-image">
+                            <img src="{{image}}" alt="" class="upgrade-image"/>
                         </div>
                         <div class="mid-section">
-                            <h4>Десет стотинки</h4>
+                            <h4>{{name}}</h4>
                             <div class="cost-info">
-                                <p>Цена: <span class="lev-cost-10st">10.00</span></p>
-                                <img src="images/lew.png" alt="" class="lev-img">
+                                <p>Цена: <span class="lev-cost-{{name}}">{{cost}}</span></p>
+                                <img src="images/1lv.png" alt="" class="lev-img"/>
                             </div>
                         </div>
                         <div class="right-section">
-                            <p>Ниво <span class="level-lev-10st">0</span></p>
+                            <p>Ниво <span class="level-lev-{{name}}">0</span></p>
                         </div>
                         <div class="next-level-info">
-                            <p>+<span class="increase-lev-10st">0.10</span> лева <br> за секунда</p>
+                            <p>+<span class="increase-lev-{{name}}">{{increase}}</span> лева <br> за секунда</p>
                         </div>
-                    </div>
-                    <div class="upgrade" onclick="buyUpgrade('20st')">
-                        <div class="left-section">
-                            <img src="images/20st.png" alt="" class="upgrade-image">
-                        </div>
-                        <div class="mid-section">
-                            <h4>Двадесет стотинки</h4>
-                            <div class="cost-info">
-                                <p>Цена: <span class="lev-cost-20st">100.00</span></p>
-                                <img src="images/lew.png" alt="" class="lev-img">
-                            </div>
-                        </div>
-                        <div class="right-section">
-                            <p>Ниво <span class="level-lev-20st">0</span></p>
-                        </div>
-                        <div class="next-level-info">
-                            <p>+<span class="increase-lev-20st">0.20</span> лева <br> за секунда</p>
-                        </div>
-                    </div>
-                    <div class="upgrade" onclick="buyUpgrade('2lv')">
-                        <div class="left-section">
-                            <img src="images/2 лева.png" alt="" class="upgrade-image">
-                        </div>
-                        <div class="mid-section">
-                            <h4>Два лева</h4>
-                            <div class="cost-info">
-                                <p>Цена: <span class="lev-cost-2">1000.00</span></p>
-                                <img src="images/lew.png" alt="" class="lev-img">
-                            </div>
-                        </div>
-                        <div class="right-section">
-                            <p>Ниво <span class="level-lev-2">0</span></p>
-                        </div>
-                        <div class="next-level-info">
-                            <p>+<span class="increase-lev-2">2</span> лева <br> за секунда</p>
-                        </div>
-                    </div>
+                    </div>     
+            </script>
+             
+            <div class="right" id="upgrades-container">
 
-                </div>
             </div>
+
+            
             <div class="util-buttons">
-                <button id="saveButton"class="util-button" >Save</button>
+                <button id="saveButton" class="util-button">Save</button>
                 <div id="saveModal" class="modal">
                     <div class="modal-content">
                         <h3>Are you sure you want to save?</h3>
@@ -90,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <button id="loadButton" class="util-button" >Load</button>
+                <button id="loadButton" class="util-button">Load</button>
                 <div id="loadModal" class="modal">
                     <div class="modal-content">
                         <h3>Are you sure you want to load?</h3>
@@ -100,11 +65,11 @@
                         </div>
                     </div>
                 </div>
-              </div>
+            </div>
         </div>
     </section>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 
 </html>
