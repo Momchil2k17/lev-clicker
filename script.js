@@ -1,4 +1,5 @@
 
+import { defaultUpgradeValues } from "./constants/defaultValues.js";
 import { powerUpIntervals, upgrades } from "./constants/upgrades.js";
 
 //money per sec function
@@ -75,61 +76,86 @@ const divTimeout = (div) => {
 setInterval(incrementMoney, 100);
 setInterval(updateTitle, 1000);
 
+function setUpgradeInfo(){
+  if(getActiveButton() === 'buy'){
+    // Existing buy logic
+    if(getActiveButtonForNums() === 1){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2);
+      });
+    }
+    else if(getActiveButtonForNums() === 10){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 10).toFixed(2);
+      });
+    }
+    else if(getActiveButtonForNums() === 100){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 100).toFixed(2);
+      });
+    }
+  } else {
+    // Logic for selling (showing sell price)
+    const sellPriceMultiplier = 0.25; // 50% refund value
+    if(getActiveButtonForNums() === 1){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = (upgrade.parsedCost/upgrade.costMultiplier * sellPriceMultiplier).toFixed(2);
+      });
+    }
+    else if(getActiveButtonForNums() === 10){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 9 * sellPriceMultiplier).toFixed(2);
+      });
+    }
+    else if(getActiveButtonForNums() === 100){
+      upgrades.map((upgrade) => {
+        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 99 * sellPriceMultiplier).toFixed(2);
+      });
+    }
+  }
+}
+
 function buyUpgrade(upgrade) {
   const activeButton = document.querySelector(".btnNum.active");
-
+  const isBuying = getActiveButton() === 'buy';
+  const multiplier = getActiveButtonForNums();
   const mU = upgrades.find((u) => {
     if (u.name == upgrade) return u
   })
 
-  if (activeButton.textContent == 1) {
-    if (money >= mU.parsedCost) {
-      const upgradeSound = new Audio('audio/upgrade.mp3')
-      upgradeSound.volume = 0.01
-      upgradeSound.play();
-
-      money -= mU.parsedCost;
-      mU.level.innerHTML=parseInt(mU.level.innerHTML)+1;
-
-      mU.parsedCost *= mU.costMultiplier;
-      mU.cost.innerHTML = mU.parsedCost.toFixed(2);
-      moneyPerSecond += mU.mPS;
-      updateMoneyDisplay();
-    }
-  }
-  else if(activeButton.textContent == 10){
-    let totalCost=mU.parsedCost*mU.costMultiplier**10
-    if(money>=totalCost){
-      const upgradeSound = new Audio('audio/upgrade.mp3')
-      upgradeSound.volume = 0.01
+  if (isBuying) {
+    // Buying logic (you already have this)
+    let totalCost = mU.parsedCost * mU.costMultiplier ** (multiplier - 1);
+    if (money >= totalCost) {
+      const upgradeSound = new Audio('audio/upgrade.mp3');
+      upgradeSound.volume = 0.01;
       upgradeSound.play();
 
       money -= totalCost;
-      mU.level.innerHTML=parseInt(mU.level.innerHTML)+10;
-      mU.parsedCost *= mU.costMultiplier**10;
+      mU.level.innerHTML = parseInt(mU.level.innerHTML) + multiplier;
+      mU.parsedCost *= mU.costMultiplier ** multiplier;
       mU.cost.innerHTML = mU.parsedCost.toFixed(2);
-      moneyPerSecond += mU.mPS*10;
+      moneyPerSecond += mU.mPS * multiplier;
       updateMoneyDisplay();
-      mU.cost.innerHTML = (mU.parsedCost * mU.costMultiplier ** 10).toFixed(2)
     }
-  }
-  else if(activeButton.textContent == 100){
-    let totalCost=mU.parsedCost*mU.costMultiplier**100
-    if(money>=totalCost){
-      const upgradeSound = new Audio('audio/upgrade.mp3')
-      upgradeSound.volume = 0.01
-      upgradeSound.play();
+  }else {
+    // Selling logic
+    const currentLevel = parseInt(mU.level.innerHTML);
+    
+    if (currentLevel >= multiplier) {
+      const sellPriceMultiplier = 0.25; // Sell back at 50% of the current cost
+      let totalSellValue = (mU.parsedCost * mU.costMultiplier ** (multiplier - 1)) * sellPriceMultiplier;
 
-      money -= totalCost;
-      mU.level.innerHTML=parseInt(mU.level.innerHTML)+100;
-      mU.parsedCost *= mU.costMultiplier**100;
+      money += totalSellValue;
+      mU.level.innerHTML = currentLevel - multiplier;
+      mU.parsedCost /= mU.costMultiplier ** multiplier;
       mU.cost.innerHTML = mU.parsedCost.toFixed(2);
-      moneyPerSecond += mU.mPS*100;
+      moneyPerSecond -= mU.mPS * multiplier;
       updateMoneyDisplay();
-      mU.cost.innerHTML = (mU.parsedCost * mU.costMultiplier ** 100).toFixed(2)
-    }
+    }else {
+    alert(`You don't have enough upgrades to sell ${multiplier} units.`);
+  } 
   }
-
 }
 
 function save() {
@@ -227,32 +253,6 @@ window.save = save;
 window.load = load;
 window.incrementLev = incrementLev;
 
-
-const buyBtn = document.querySelector(".buyMulti");
-const sellBtn = document.querySelector(".sellMulti");
-buyBtn.classList.add("active");
-sellBtn.classList.add("disabled");
-buyBtn.addEventListener("click", () => {
-  buyBtn.classList.add("active");
-  sellBtn.classList.add("disabled");
-  sellBtn.classList.remove("active");
-  buyBtn.classList.remove("disabled");
-});
-
-sellBtn.addEventListener("click", () => {
-  sellBtn.classList.add("active");
-  buyBtn.classList.add("disabled");
-  buyBtn.classList.remove("active");
-  sellBtn.classList.remove("disabled");
-});
-
-const btn1 = document.querySelector(".btn1");
-btn1.classList.add("active");
-const btn10 = document.querySelector(".btn10");
-btn10.classList.add("disabled");
-const btn100 = document.querySelector(".btn100");
-btn100.classList.add("disabled");
-
 function setActiveButton(activeBtn, disabledBtns) {
   activeBtn.classList.add("active");
   activeBtn.classList.remove("disabled");
@@ -262,34 +262,69 @@ function setActiveButton(activeBtn, disabledBtns) {
     btn.classList.add("disabled");
   });
 }
+function setActiveButton2(activeBtn, disabledBtns) {
+  activeBtn.classList.add("active");
+  activeBtn.classList.remove("disabled");
+
+    disabledBtns.classList.remove("active");
+    disabledBtns.classList.add("disabled");
+}
+
+const buyBtn = document.querySelector(".buyMulti");
+const sellBtn = document.querySelector(".sellMulti");
+buyBtn.classList.add("active");
+sellBtn.classList.add("disabled");
+buyBtn.addEventListener("click", () => {
+  setActiveButton2(buyBtn,sellBtn)
+  setUpgradeInfo()
+});
+
+sellBtn.addEventListener("click", () => {
+  setActiveButton2(sellBtn,buyBtn)
+  setUpgradeInfo()
+});
+function getActiveButton() {
+  if (buyBtn.classList.contains('active')) {
+      return 'buy';
+  } else if (sellBtn.classList.contains('active')) {
+      return 'sell';
+  }
+  return null; // No button is active
+}
+
+const btn1 = document.querySelector(".btn1");
+btn1.classList.add("active");
+const btn10 = document.querySelector(".btn10");
+btn10.classList.add("disabled");
+const btn100 = document.querySelector(".btn100");
+btn100.classList.add("disabled");
+setUpgradeInfo()
+
+
+
 
 btn1.addEventListener("click", () => {
-  setActiveButton(btn1, [btn10, btn100]);
-  upgrades.map((upgrade) => {
-
-
-    upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2)
-  })
-});
-
-btn10.addEventListener("click", () => {
-  setActiveButton(btn10, [btn1, btn100]);
-  upgrades.map((upgrade) => {
-
-
-    upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 10).toFixed(2)
-  })
-
-});
-
-btn100.addEventListener("click", () => {
-  setActiveButton(btn100, [btn1, btn10]);
-  upgrades.map((upgrade) => {
-
-
-    upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 100).toFixed(2)
-  })
-});
-
-
+      setActiveButton(btn1, [btn10, btn100]);
+      setUpgradeInfo()
+    });
+    
+    btn10.addEventListener("click", () => {
+      setActiveButton(btn10, [btn1, btn100]);
+      setUpgradeInfo()
+    });
+    
+    btn100.addEventListener("click", () => {
+      setActiveButton(btn100, [btn1, btn10]);
+      setUpgradeInfo()
+    });
+    function getActiveButtonForNums() {
+      if (btn1.classList.contains('active')) {
+          return 1;
+      } else if (btn10.classList.contains('active')) {
+          return 10;
+      } else if (btn100.classList.contains('active')) {
+          return 100;
+      }
+      return null; // No button is active
+  }
 
