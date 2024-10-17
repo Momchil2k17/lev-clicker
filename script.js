@@ -1,5 +1,5 @@
 
-import { upgrades } from "./constants/upgrades.js";
+import { powerUpIntervals, upgrades } from "./constants/upgrades.js";
 
 //money per sec function
 let money = 0;
@@ -10,6 +10,11 @@ const moneyElement = document.querySelector(".lev-count");
 const moneyPerSecondElement = document.querySelector('.lev-per-sec');
 
 
+
+const backgroundMusic=new Audio('audio/bgm.mp3')
+backgroundMusic.volume=0.02;
+
+const upgradeSound=new Audio('audio/upgrade.mp3')
 
 
 
@@ -35,10 +40,14 @@ function updateTitle() {
 
 let levImgContainter = document.querySelector('.lev-container')
 
+
+
 function incrementLev(event) {
   money += moneyPerClick;
   updateMoneyDisplay();
-
+  const clickingSound=new Audio('audio/click.mp3')
+  clickingSound.volume=0.1
+  clickingSound.play();
   const x = event.offsetX
   const y = event.offsetY
 
@@ -67,11 +76,20 @@ setInterval(incrementMoney, 100);
 setInterval(updateTitle, 1000);
 
 function buyUpgrade(upgrade) {
+
   const mU = upgrades.find((u) => {
     if (u.name == upgrade) return u
   })
-  
+
+ 
   if (money >= mU.parsedCost) {
+    const upgradeSound=new Audio('audio/upgrade.mp3')
+    upgradeSound.volume=0.01
+    upgradeSound.play();
+  
+
+    
+
     money -= mU.parsedCost;
     mU.level.innerHTML++;
 
@@ -176,3 +194,51 @@ window.buyUpgrade = buyUpgrade;
 window.save = save;
 window.load = load;
 window.incrementLev = incrementLev;
+
+
+const buyBtn = document.querySelector(".buyMulti");
+const sellBtn = document.querySelector(".sellMulti");
+buyBtn.classList.add("active");
+sellBtn.classList.add("disabled");
+buyBtn.addEventListener("click", () => {
+    buyBtn.classList.add("active");
+    sellBtn.classList.add("disabled");
+    sellBtn.classList.remove("active");
+    buyBtn.classList.remove("disabled");
+});
+
+sellBtn.addEventListener("click", () => {
+    sellBtn.classList.add("active");
+    buyBtn.classList.add("disabled");
+    buyBtn.classList.remove("active");
+    sellBtn.classList.remove("disabled");
+});
+
+const btn1 = document.querySelector(".btn1");
+btn1.classList.add("active");
+const btn10 = document.querySelector(".btn10");
+btn10.classList.add("disabled");
+const btn100 = document.querySelector(".btn100");
+btn100.classList.add("disabled");
+
+function setActiveButton(activeBtn, disabledBtns) {
+  activeBtn.classList.add("active");
+  activeBtn.classList.remove("disabled");
+
+  disabledBtns.forEach(btn => {
+      btn.classList.remove("active");
+      btn.classList.add("disabled");
+  });
+}
+
+btn1.addEventListener("click", () => {
+  setActiveButton(btn1, [btn10, btn100]);
+});
+
+btn10.addEventListener("click", () => {
+  setActiveButton(btn10, [btn1, btn100]);
+});
+
+btn100.addEventListener("click", () => {
+  setActiveButton(btn100, [btn1, btn10]);
+});

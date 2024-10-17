@@ -45,3 +45,5 @@ export const upgrades = [
     },
   
   ]
+
+  export const powerUpIntervals = [10, 20, 30, 50, 70, 100, 150, 200, 250, 300]
