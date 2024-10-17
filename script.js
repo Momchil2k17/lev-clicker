@@ -11,10 +11,10 @@ const moneyPerSecondElement = document.querySelector('.lev-per-sec');
 
 
 
-const backgroundMusic=new Audio('audio/bgm.mp3')
-backgroundMusic.volume=0.02;
+const backgroundMusic = new Audio('audio/bgm.mp3')
+backgroundMusic.volume = 0.02;
 
-const upgradeSound=new Audio('audio/upgrade.mp3')
+const upgradeSound = new Audio('audio/upgrade.mp3')
 
 
 
@@ -45,8 +45,8 @@ let levImgContainter = document.querySelector('.lev-container')
 function incrementLev(event) {
   money += moneyPerClick;
   updateMoneyDisplay();
-  const clickingSound=new Audio('audio/click.mp3')
-  clickingSound.volume=0.1
+  const clickingSound = new Audio('audio/click.mp3')
+  clickingSound.volume = 0.1
   clickingSound.play();
   const x = event.offsetX
   const y = event.offsetY
@@ -76,28 +76,60 @@ setInterval(incrementMoney, 100);
 setInterval(updateTitle, 1000);
 
 function buyUpgrade(upgrade) {
+  const activeButton = document.querySelector(".btnNum.active");
 
   const mU = upgrades.find((u) => {
     if (u.name == upgrade) return u
   })
 
- 
-  if (money >= mU.parsedCost) {
-    const upgradeSound=new Audio('audio/upgrade.mp3')
-    upgradeSound.volume=0.01
-    upgradeSound.play();
-  
+  if (activeButton.textContent == 1) {
+    if (money >= mU.parsedCost) {
+      const upgradeSound = new Audio('audio/upgrade.mp3')
+      upgradeSound.volume = 0.01
+      upgradeSound.play();
 
-    
+      money -= mU.parsedCost;
+      mU.level.innerHTML=parseInt(mU.level.innerHTML)+1;
 
-    money -= mU.parsedCost;
-    mU.level.innerHTML++;
-
-    mU.parsedCost *= mU.costMultiplier;
-    mU.cost.innerHTML = mU.parsedCost.toFixed(2);
-    moneyPerSecond += mU.mPS;
-    updateMoneyDisplay();
+      mU.parsedCost *= mU.costMultiplier;
+      mU.cost.innerHTML = mU.parsedCost.toFixed(2);
+      moneyPerSecond += mU.mPS;
+      updateMoneyDisplay();
+    }
   }
+  else if(activeButton.textContent == 10){
+    let totalCost=mU.parsedCost*mU.costMultiplier**10
+    if(money>=totalCost){
+      const upgradeSound = new Audio('audio/upgrade.mp3')
+      upgradeSound.volume = 0.01
+      upgradeSound.play();
+
+      money -= totalCost;
+      mU.level.innerHTML=parseInt(mU.level.innerHTML)+10;
+      mU.parsedCost *= mU.costMultiplier**10;
+      mU.cost.innerHTML = mU.parsedCost.toFixed(2);
+      moneyPerSecond += mU.mPS*10;
+      updateMoneyDisplay();
+      mU.cost.innerHTML = (mU.parsedCost * mU.costMultiplier ** 10).toFixed(2)
+    }
+  }
+  else if(activeButton.textContent == 100){
+    let totalCost=mU.parsedCost*mU.costMultiplier**100
+    if(money>=totalCost){
+      const upgradeSound = new Audio('audio/upgrade.mp3')
+      upgradeSound.volume = 0.01
+      upgradeSound.play();
+
+      money -= totalCost;
+      mU.level.innerHTML=parseInt(mU.level.innerHTML)+100;
+      mU.parsedCost *= mU.costMultiplier**100;
+      mU.cost.innerHTML = mU.parsedCost.toFixed(2);
+      moneyPerSecond += mU.mPS*100;
+      updateMoneyDisplay();
+      mU.cost.innerHTML = (mU.parsedCost * mU.costMultiplier ** 100).toFixed(2)
+    }
+  }
+
 }
 
 function save() {
@@ -201,17 +233,17 @@ const sellBtn = document.querySelector(".sellMulti");
 buyBtn.classList.add("active");
 sellBtn.classList.add("disabled");
 buyBtn.addEventListener("click", () => {
-    buyBtn.classList.add("active");
-    sellBtn.classList.add("disabled");
-    sellBtn.classList.remove("active");
-    buyBtn.classList.remove("disabled");
+  buyBtn.classList.add("active");
+  sellBtn.classList.add("disabled");
+  sellBtn.classList.remove("active");
+  buyBtn.classList.remove("disabled");
 });
 
 sellBtn.addEventListener("click", () => {
-    sellBtn.classList.add("active");
-    buyBtn.classList.add("disabled");
-    buyBtn.classList.remove("active");
-    sellBtn.classList.remove("disabled");
+  sellBtn.classList.add("active");
+  buyBtn.classList.add("disabled");
+  buyBtn.classList.remove("active");
+  sellBtn.classList.remove("disabled");
 });
 
 const btn1 = document.querySelector(".btn1");
@@ -226,19 +258,38 @@ function setActiveButton(activeBtn, disabledBtns) {
   activeBtn.classList.remove("disabled");
 
   disabledBtns.forEach(btn => {
-      btn.classList.remove("active");
-      btn.classList.add("disabled");
+    btn.classList.remove("active");
+    btn.classList.add("disabled");
   });
 }
 
 btn1.addEventListener("click", () => {
   setActiveButton(btn1, [btn10, btn100]);
+  upgrades.map((upgrade) => {
+
+
+    upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2)
+  })
 });
 
 btn10.addEventListener("click", () => {
   setActiveButton(btn10, [btn1, btn100]);
+  upgrades.map((upgrade) => {
+
+
+    upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 10).toFixed(2)
+  })
+
 });
 
 btn100.addEventListener("click", () => {
   setActiveButton(btn100, [btn1, btn10]);
+  upgrades.map((upgrade) => {
+
+
+    upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 100).toFixed(2)
+  })
 });
+
+
+

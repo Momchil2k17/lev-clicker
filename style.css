@@ -119,11 +119,11 @@ body {
     flex-direction: column;
     transition: box-shadow 0.3s, background-color 0.3s;
 }
-.btn.active {
+.btn.active, .btnNum.active {
     color: #4CAF50;
     
 }
-.btn.disabled {
+.btn.disabled, .btnNum.disabled {
     color: #ff1900;
 }
 
