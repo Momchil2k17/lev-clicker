@@ -33,6 +33,7 @@ function updateMoneyDisplay() {
 function incrementMoney() {
   money += moneyPerSecond / 10;
   updateMoneyDisplay();
+  updateUpgradeAffordability();
 }
 
 function updateTitle() {
@@ -78,7 +79,6 @@ setInterval(updateTitle, 1000);
 
 function setUpgradeInfo(){
   if(getActiveButton() === 'buy'){
-    // Existing buy logic
     if(getActiveButtonForNums() === 1){
       upgrades.map((upgrade) => {
         upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2);
@@ -113,10 +113,31 @@ function setUpgradeInfo(){
       });
     }
   }
+  updateUpgradeAffordability();
 }
-
+function updateUpgradeAffordability() {
+  upgrades.forEach((upgrade) => {
+    let totalCost =  upgrade.parsedCost * upgrade.costMultiplier ** (getActiveButtonForNums() - 1);
+    const upgradeElement = document.getElementById(`${upgrade.name}-upgrade`); // Assuming this refers to the DOM element of the upgrade
+    const upgradeCost = upgrade.parsedCost;
+    
+    if(getActiveButton() === 'buy'){
+    // Check if the player can afford this upgrade
+    if (money >= totalCost) {
+      upgradeElement.classList.remove('disabled');
+    } else {
+      upgradeElement.classList.add('disabled');
+    }
+  }else{
+    if (upgrade.level.textContent >= getActiveButtonForNums()) {
+      upgradeElement.classList.remove('disabled');
+  } else {
+      upgradeElement.classList.add('disabled');
+  }
+  }
+  });
+}
 function buyUpgrade(upgrade) {
-  const activeButton = document.querySelector(".btnNum.active");
   const isBuying = getActiveButton() === 'buy';
   const multiplier = getActiveButtonForNums();
   const mU = upgrades.find((u) => {
@@ -156,6 +177,8 @@ function buyUpgrade(upgrade) {
     alert(`You don't have enough upgrades to sell ${multiplier} units.`);
   } 
   }
+  updateUpgradeAffordability();
+  setUpgradeInfo()
 }
 
 function save() {

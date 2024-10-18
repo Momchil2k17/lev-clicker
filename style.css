@@ -156,6 +156,7 @@ body {
     user-select: none;  /* Prevent text selection */
   -webkit-user-drag: none;  /* Disable dragging on WebKit browsers */
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  /* Remove blue tap highlight on mobile */
+  touch-action: manipulation;
 }
 
 .lev-image:hover {
@@ -194,7 +195,17 @@ body {
     width: 65px;
     margin: 0;
 }
-
+.upgrade.disabled {
+    background-color: #a9a9a9; /* Grey color */
+    color: #606060; /* Adjust text color */
+    pointer-events: none; /* Prevent clicks */
+    border-color: #a9a9a9; /* Make border grey */
+    opacity: 0.6; /* Slightly transparent */
+}
+.upgrade.disabled:hover {
+    background-color: #a9a9a9; /* Keep grey color on hover */
+    color: #606060;
+}
 .lev-img {
     width: 30px;
     height: 30px;
