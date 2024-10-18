@@ -1,83 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Clicker</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <title>Clicker</title>
+    </head>
 
-<body>
-    <section>
-        <div class="main">
-            <div class="left">
-                <h3> <span class="lev-count">0.00</span> лева</h3>
-                <h4> <span class="lev-per-sec">0.00</span> лева/с</h4>
-                <div class="lev-container">
-                    <img src="images/1lv.png" alt="" class="lev-image" onClick="incrementLev(event)"
-                        draggable="false" />
-                </div>
-            </div>
-
-            <div class="right" id="upgrades-container">
-                <div class="multiplier">
-                    <div class="buyAndSell">
-                        <button class="buyMulti btn">Buy</button>
-                        <button class="sellMulti btn">Sell</button>
-                    </div>
-                    <button class="btn1 btnNum">1</button>
-                    <button class="btn10 btnNum">10</button>
-                    <button class="btn100 btnNum">100</button>
-                </div>
-
-            </div>
-
-            <div class="util-buttons">
-                <button id="saveButton" class="util-button">Save</button>
-                <div id="saveModal" class="modal">
-                    <div class="modal-content">
-                        <h3>Are you sure you want to save?</h3>
-                        <div class="modal-buttons">
-                            <button id="confirmSave" class="confirm">Yes, Save</button>
-                            <button id="cancelSave" class="cancel">Cancel</button>
-                        </div>
+    <body>
+        <section>
+            <div class="main">
+                <div class="left">
+                    <h3> <span class="lev-count">0.00</span> лева</h3>
+                    <h4> <span class="lev-per-sec">0.00</span> лева/с</h4>
+                    <div class="lev-container">
+                        <img src="images/1lv.png" alt="" class="lev-image" onClick="incrementLev(event)"
+                            draggable="false" />
                     </div>
                 </div>
-                <button id="loadButton" class="util-button">Load</button>
-                <div id="loadModal" class="modal">
-                    <div class="modal-content">
-                        <h3>Are you sure you want to load?</h3>
-                        <div class="modal-buttons">
-                            <button id="confirmLoad" class="confirm">Yes, Load</button>
-                            <button id="cancelLoad" class="cancel">Cancel</button>
+
+                <div class="right" id="upgrades-container">
+                    <div class="multiplier">
+                        <div class="buyAndSell">
+                            <button class="buyMulti btn">Buy</button>
+                            <button class="sellMulti btn">Sell</button>
                         </div>
+                        <button class="btn1 btnNum">1</button>
+                        <button class="btn10 btnNum">10</button>
+                        <button class="btn100 btnNum">100</button>
                     </div>
+
                 </div>
-            </div>
-        </div>
-    </section>
-    <script id="upgrade-template" type="text/template">
-                   <div class="upgrade" onclick="buyUpgrade('{{name}}')" onclick="sellUpgrade('{{name}}')" id="{{name}}-upgrade">
-                        <div class="left-section">
-                            <img src="{{image}}" alt="" class="upgrade-image"/>
-                        </div>
-                        <div class="mid-section">
-                            <h4>{{name}}</h4>
-                            <div class="cost-info">
-                                <p>Цена: <span class="lev-cost-{{name}}">{{cost}}</span></p>
-                                <img src="images/1lv.png" alt="" class="lev-img"/>
+
+                <div class="util-buttons">
+                    <button id="saveButton" class="util-button">Save</button>
+                    <div id="saveModal" class="modal">
+                        <div class="modal-content">
+                            <h3>Are you sure you want to save?</h3>
+                            <div class="modal-buttons">
+                                <button id="confirmSave" class="confirm">Yes, Save</button>
+                                <button id="cancelSave" class="cancel">Cancel</button>
                             </div>
                         </div>
-                        <div class="right-section">
-                            <p>Ниво <span class="level-lev-{{name}}" >0</span></p>
+                    </div>
+                    <button id="loadButton" class="util-button">Load</button>
+                    <div id="loadModal" class="modal">
+                        <div class="modal-content">
+                            <h3>Are you sure you want to load?</h3>
+                            <div class="modal-buttons">
+                                <button id="confirmLoad" class="confirm">Yes, Load</button>
+                                <button id="cancelLoad" class="cancel">Cancel</button>
+                            </div>
                         </div>
-                        <div class="next-level-info" id="{{name}}-next-level">
-                            <p id="{{name}}-next-p">+<span class="increase-lev-{{name}}">{{increase}}</span> лева <br> за секунда</p>
-                        </div>
-                    </div>     
-    </script>
-    <script type="module" src="script.js"></script>
-</body>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script id="upgrade-template" type="text/template">
+                    <div class="upgrade" onclick="buyUpgrade('{{name}}')" onclick="sellUpgrade('{{name}}')" id="{{name}}-upgrade">
+                            <div class="left-section">
+                                <img src="{{image}}" alt="" class="upgrade-image"/>
+                            </div>
+                            <div class="mid-section">
+                                <h4>{{name}}</h4>
+                                <div class="cost-info">
+                                    <p>Цена: <span class="lev-cost-{{name}}">{{cost}}</span></p>
+                                    <img src="images/1lv.png" alt="" class="lev-img"/>
+                                </div>
+                            </div>
+                            <div class="right-section">
+                                <p>Ниво <span class="level-lev-{{name}}" >0</span></p>
+                            </div>
+                            <div class="next-level-info" id="{{name}}-next-level">
+                                <p id="{{name}}-next-p">+<span class="increase-lev-{{name}}">{{increase}}</span> лева <br> за секунда</p>
+                            </div>
+                        </div>     
+        </script>
+        <script type="module" src="script.js"></script>
+    </body>
 
-</html>
+    </html>
