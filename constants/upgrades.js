@@ -1,17 +1,20 @@
 import { defaultUpgradeValues } from "./defaultValues.js";
 
+function slugify(name) {
+  return name.toLowerCase().replace(/\s+/g, '-'); // Replace spaces with hyphens
+}
+
 function createUpgrades() {
     const upgradesContainer = document.getElementById('upgrades-container')
     const template = document.getElementById('upgrade-template').textContent
   
     defaultUpgradeValues.forEach((obj) => {
       let html = template;
-  
+      const slugifiedName = slugify(obj.name);
       Object.keys(obj).forEach((key) => {
         const regex = new RegExp(`{{${key}}}`, 'g');
         html = html.replace(regex, obj[key])
       });
-  
       upgradesContainer.innerHTML += html
     })
   }
@@ -20,6 +23,7 @@ function createUpgrades() {
 export const upgrades = [
     {
         name: '10st',
+        bgname:'Десет стотинки',
         cost: document.querySelector('.lev-cost-10st'),
         parsedCost: parseFloat(document.querySelector(".lev-cost-10st").innerHTML),
         level: document.querySelector(".level-lev-10st"),
@@ -29,6 +33,7 @@ export const upgrades = [
   
     {
       name: '20st',
+      bgname:'Двадесет стотинки',
       cost: document.querySelector('.lev-cost-20st'),
       parsedCost: parseFloat(document.querySelector(".lev-cost-20st").innerHTML),
       level: document.querySelector(".level-lev-20st"),
@@ -37,6 +42,7 @@ export const upgrades = [
     },
     {
       name: '2lv',
+      bgname:'Два лева',
       cost: document.querySelector('.lev-cost-2lv'),
       parsedCost: parseFloat(document.querySelector(".lev-cost-2lv").innerHTML),
       level: document.querySelector(".level-lev-2lv"),
