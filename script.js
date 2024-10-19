@@ -21,7 +21,7 @@ const upgradeSound = new Audio('audio/upgrade.mp3')
 
 // Update money display
 function updateMoneyDisplay() {
-  moneyElement.textContent = money.toFixed(2);
+  moneyElement.textContent = formatNumber(money);
   moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
   //   moneyElement.classList.add('animated');
   //   setTimeout(() => {
@@ -81,22 +81,22 @@ function setUpgradeInfo(){
   if(getActiveButton() === 'buy'){
     if(getActiveButtonForNums() === 1){
       upgrades.map((upgrade) => {
-        upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2);
-        document.querySelector(`.plusOrMinus`).innerText='+'
+        upgrade.cost.innerHTML =formatNumber(upgrade.parsedCost);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='+'
         document.querySelector(`.increase-lev-${upgrade.name}`).innerText=(upgrade.mPS).toFixed(2);
       });
     }
     else if(getActiveButtonForNums() === 10){
       upgrades.map((upgrade) => {
-        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 10).toFixed(2);
-        document.querySelector(`.plusOrMinus`).innerText='+'
+        upgrade.cost.innerHTML = formatNumber(upgrade.parsedCost * upgrade.costMultiplier ** 10);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='+'
         document.querySelector(`.increase-lev-${upgrade.name}`).innerText=(upgrade.mPS*10).toFixed(2);
       });
     }
     else if(getActiveButtonForNums() === 100){
       upgrades.map((upgrade) => {
-        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 100).toFixed(2);
-        document.querySelector(`.plusOrMinus`).innerText='+'
+        upgrade.cost.innerHTML = formatNumber(upgrade.parsedCost * upgrade.costMultiplier ** 100);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='+'
         document.querySelector(`.increase-lev-${upgrade.name}`).innerText=(upgrade.mPS*100).toFixed(2);
       });
     }
@@ -105,20 +105,20 @@ function setUpgradeInfo(){
     const sellPriceMultiplier = 0.25; // 50% refund value
     if(getActiveButtonForNums() === 1){
       upgrades.map((upgrade) => {
-        document.querySelector(`.plusOrMinus`).innerText='-'
-        upgrade.cost.innerHTML = (upgrade.parsedCost/upgrade.costMultiplier * sellPriceMultiplier).toFixed(2);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='-'
+        upgrade.cost.innerHTML = formatNumber(upgrade.parsedCost/upgrade.costMultiplier * sellPriceMultiplier);
       });
     }
     else if(getActiveButtonForNums() === 10){
       upgrades.map((upgrade) => {
-        document.querySelector(`.plusOrMinus`).innerText='-'
-        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 9 * sellPriceMultiplier).toFixed(2);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='-'
+        upgrade.cost.innerHTML = formatNumber(upgrade.parsedCost * upgrade.costMultiplier ** 9 * sellPriceMultiplier);
       });
     }
     else if(getActiveButtonForNums() === 100){
       upgrades.map((upgrade) => {
-        document.querySelector(`.plusOrMinus`).innerText='-'
-        upgrade.cost.innerHTML = (upgrade.parsedCost * upgrade.costMultiplier ** 99 * sellPriceMultiplier).toFixed(2);
+        document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='-'
+        upgrade.cost.innerHTML = formatNumber(upgrade.parsedCost * upgrade.costMultiplier ** 99 * sellPriceMultiplier);
       });
     }
   }
@@ -360,3 +360,16 @@ btn1.addEventListener("click", () => {
       return null; // No button is active
   }
 
+  function formatNumber(num) {
+    const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi']; // Add more suffixes if needed
+    let tier = Math.log10(num) / 3 | 0; // Determine the tier (thousands, millions, etc.)
+
+    if (tier === 0) return num.toFixed(2); // If the number is below 1000, return it normally
+
+    const suffix = suffixes[tier]; // Get the appropriate suffix
+    const scale = Math.pow(10, tier * 3); // Scale the number down to the appropriate size
+    const scaled = num / scale; // Divide the number by the scale
+
+    // Return the scaled number with two decimal places and append the suffix
+    return scaled.toFixed(2) + suffix;
+}
