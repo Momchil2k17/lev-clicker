@@ -5,8 +5,7 @@ import { powerUpIntervals, upgrades } from "./constants/upgrades.js";
 //money per sec function
 let money = 0;
 let moneyPerSecond = 0;
-let displayMoney = 0;
-let moneyPerClick = 100;
+let moneyPerClick = 1;
 const moneyElement = document.querySelector(".lev-count");
 const moneyPerSecondElement = document.querySelector('.lev-per-sec');
 
@@ -37,7 +36,7 @@ function incrementMoney() {
 }
 
 function updateTitle() {
-  document.title = `${Math.floor(money).toLocaleString()} лева`; // Update title with current money
+  document.title = `${Math.floor((money)).toLocaleString()} лева`; // Update title with current money
 }
 
 let levImgContainter = document.querySelector('.lev-container')
@@ -361,12 +360,13 @@ btn1.addEventListener("click", () => {
   }
 
   function formatNumber(num) {
-    const suffixes = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi']; // Add more suffixes if needed
-    let tier = Math.log10(num) / 3 | 0; // Determine the tier (thousands, millions, etc.)
+    const suffixes = ['', 'M', 'B', 'T', 'Qa', 'Qi']; // Start at 'M' (Million)
+    let tier = Math.log10(num) / 3 | 0; // Determine the tier (millions, billions, etc.)
 
-    if (tier === 0) return num.toFixed(2); // If the number is below 1000, return it normally
+    // If the number is below 1 million, return the number without formatting
+    if (num < 1_000_000) return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    const suffix = suffixes[tier]; // Get the appropriate suffix
+    const suffix = suffixes[tier - 1]; // Subtract 1 to skip 'K'
     const scale = Math.pow(10, tier * 3); // Scale the number down to the appropriate size
     const scaled = num / scale; // Divide the number by the scale
 
