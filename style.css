@@ -49,7 +49,300 @@
         opacity: 0;
     }
 }
+@media (max-width: 800px) {
+    .animated {
+        animation: pop 0.3s ease-in-out;
+        /* Apply the pop animation */
+    }
+    
+    .fade-up {
+        animation: fade-up 1s;
+    }
+    body {
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-color: #606060;
+        color: #D6ED17;
+        user-select: none;
+        font-family: Rubik, sans-serif;
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 50px;
+    }
+    .left {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .left h3 {
+        text-align: center;
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .left h4 {
+        text-align: center;
+        font-size: 10px;
+    }
+    .right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-height: 400px;
+        width: 285px;
+        padding: 10px 2.5px;
+        overflow-y: scroll;
+    }
+    .multiplier{
+        text-align: center;
+        width: 195px;
+        border: 2px solid #D6ED17;
+        background-color: #555;
+        border-radius: 2.5px;
+        padding: 1px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .buyAndSell{
+        display: flex;
+        gap: 2px;
+        flex-direction: column;
+        transition: box-shadow 0.3s, background-color 0.3s;
+    }
+    .btn.active, .btnNum.active {
+        color: #4CAF50;
+        
+    }
+    .btn.disabled, .btnNum.disabled {
+        color: #ff1900;
+    }
+    
+    .buyMulti,.sellMulti,.btn1,.btn10,.btn100{
+        color: inherit;
+        font: inherit;
+        font-size: 8px;
+        background-color: #555;
+        border-style: none;
+    }
+    .lev-container {
+        position: relative;
+    }
+    
+    .lev-count {
+        display: inline-block;
+        /* Necessary for animation */
+        transition: all 0.5s ease-in-out;
+        /* Transition for smooth counting */
+        font-size: 16px;
+        /* Font size for the counter */
+        color: #D6ED17;
+        /* Color of the money counter */
+    }
+    .lev-image {
+        width: 150px;
+        transition: all 0.2s ease;
+        user-select: none;  /* Prevent text selection */
+      -webkit-user-drag: none;  /* Disable dragging on WebKit browsers */
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);  /* Remove blue tap highlight on mobile */
+      touch-action: pinch-zoom;
+    }
+    
+    .lev-image:hover {
+        opacity: 0.9;
+        cursor: pointer;
+    }
+    
+    .lev-image:active {
+        opacity: 0.8;
+        transform: scale(1.2);
+    }
+    .mid-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .mid-section h4 {
+        margin: 0;
+        margin-bottom: 10px;
+        font-size: 10px;
+    }
+    
+    .mid-section p {
+        margin: 0;
+        font-size: 10px;
+    
+    }
+    .right-section p {
+        font-size: 10px;
+    }
+    
+    .upgrade-image {
+        width: 30px;
+        margin: 0;
+    }
+    .upgrade.disabled {
+        background-color: #a9a9a9; /* Grey color */
+        color: #606060; /* Adjust text color */
+        pointer-events: none; /* Prevent clicks */
+        border-color: #a9a9a9; /* Make border grey */
+        opacity: 0.6; /* Slightly transparent */
+    }
+    .upgrade.disabled:hover {
+        background-color: #a9a9a9; /* Keep grey color on hover */
+        color: #606060;
+    }
+    .lev-img {
+        width: 15px;
+        height: 15px;
+    }
+    .upgrade {
+        transition: background-color 0.6s, color 0.6s, opacity 0.6s;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 195px;
+        height: 30px;
+        border: 2px solid #D6ED17;
+        border-radius: 2.5px;
+        padding: 5px 10px;
+        position: relative;
+    
+    }
+    .upgrade:hover {
+        background-color: #D6ED17;
+        color: #606060;
+        transition: ease-in 0.3s;
+    }
+    
+    .cost-info {
+        display: flex;
+        align-items: center;
+        gap: 2.5px;
+    }
+    
+    .next-level-info {
+        position: absolute;
+        right: -55px;
+        background-color: gray;
+        width: 50px;
+        height: 40px;
+        text-align: center;
+        font-size: 8px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    
+    .upgrade:hover .next-level-info {
+        opacity: 1;
+        transition: opacity 0.6s;
+        background-color: gray;
+        color: #D6ED17;
+    }
+    .util-buttons {
+        position: absolute;
+        top: 7.5px;
+        right: 7.5px;
+        display: flex;
+        gap: 5px;
+    }
+    
+    .util-button {
+        padding: 4px 7.5px;
+        font-size: 10px;
+        font-weight: 600;
+        font-family: inherit;
+        border-radius: 3px;
+    }
+    
+    .util-button:hover {
+        opacity: 0.7;
+        cursor: pointer;
+    }
+    /* Style for the popup (modal) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black with opacity */
+}
 
+/* Modal content (the white box) */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons inside the modal */
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-buttons button.confirm {
+    background-color: #4CAF50;
+    /* Green */
+    color: white;
+}
+
+.modal-buttons button.cancel {
+    background-color: #f44336;
+    /* Red */
+    color: white;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555
+}
+}
+@media (min-width: 800px){
 .animated {
     animation: pop 0.3s ease-in-out;
     /* Apply the pop animation */
@@ -149,7 +442,6 @@ body {
     /* Font size for the counter */
     color: #D6ED17;
     /* Color of the money counter */
-
 }
 
 .lev-image {
@@ -352,4 +644,5 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555
+}
 }
