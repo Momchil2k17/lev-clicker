@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
 window.onbeforeunload = function() {
   saveGameState();
 };
-
+setInterval(saveGameState, 5000); // Saves the game every 10 seconds
 
 // function save() {
 //   localStorage.clear()
