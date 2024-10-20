@@ -186,7 +186,10 @@ function buyUpgrade(upgrade) {
   updateUpgradeAffordability();
   setUpgradeInfo()
 }
-function saveGameState() {
+
+function save() {
+  localStorage.clear()
+
   upgrades.map((upgrade) => {
 
     const obj = JSON.stringify({
@@ -197,11 +200,66 @@ function saveGameState() {
     localStorage.setItem(upgrade.name, obj)
 
   })
+
   localStorage.setItem('mnPerClick', JSON.stringify(moneyPerClick))
   localStorage.setItem('mnPerSecond', JSON.stringify(moneyPerSecond))
   localStorage.setItem('money', JSON.stringify(money))
 }
-function loadGameState() {
+
+const saveButton = document.getElementById('saveButton');
+const saveModal = document.getElementById('saveModal');
+const confirmSave = document.getElementById('confirmSave');
+const cancelSave = document.getElementById('cancelSave');
+
+// When the "Save" button is clicked, show the modal
+saveButton.addEventListener('click', function () {
+  saveModal.style.display = 'block'; // Show the modal
+});
+
+// When the user clicks "Yes, Save", close the modal and confirm save
+confirmSave.addEventListener('click', function () {
+  saveModal.style.display = 'none'; // Hide the modal
+  alert("Save confirmed!"); // You can replace this with actual save logic
+  save()
+});
+
+// When the user clicks "Cancel", close the modal
+cancelSave.addEventListener('click', function () {
+  saveModal.style.display = 'none'; // Hide the modal
+  alert("Save cancelled."); // Optionally show a message for cancellation
+});
+
+// Close the modal if the user clicks outside of the modal content
+window.addEventListener('click', function (event) {
+  if (event.target == saveModal) {
+    saveModal.style.display = 'none';
+  }
+  if (event.target == loadModal) {
+    loadModal.style.display = 'none';
+  }
+});
+
+const loadButton = document.getElementById('loadButton');
+const loadModal = document.getElementById('loadModal');
+const confirmLoad = document.getElementById('confirmLoad');
+const cancelLoad = document.getElementById('cancelLoad');
+
+loadButton.addEventListener('click', function () {
+  loadModal.style.display = 'block'; // Show the load modal
+});
+
+confirmLoad.addEventListener('click', function () {
+  loadModal.style.display = 'none'; // Hide the modal
+  alert("Load confirmed!"); // You can replace this with actual load logic
+  load()
+});
+
+cancelLoad.addEventListener('click', function () {
+  loadModal.style.display = 'none'; // Hide the modal
+  alert("Load cancelled.");
+});
+
+function load() {
   upgrades.map((upgrade) => {
     const savedValues = JSON.parse(localStorage.getItem(upgrade.name))
 
@@ -218,111 +276,10 @@ function loadGameState() {
   moneyElement.textContent = money.toFixed(2);
   moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
 }
-document.addEventListener('DOMContentLoaded', function() {
-  loadGameState(); // Call your game loading function here
-});
-
-// Call this when the game starts
-
-// Call this function when the user leaves the page
-window.onbeforeunload = function() {
-  saveGameState();
-};
-setInterval(saveGameState, 5000); // Saves the game every 10 seconds
-
-// function save() {
-//   localStorage.clear()
-
-//   upgrades.map((upgrade) => {
-
-//     const obj = JSON.stringify({
-//       parsedLevel: parseFloat(upgrade.level.innerHTML),
-//       parsedCost: upgrade.parsedCost,
-//     })
-
-//     localStorage.setItem(upgrade.name, obj)
-
-//   })
-
-//   localStorage.setItem('mnPerClick', JSON.stringify(moneyPerClick))
-//   localStorage.setItem('mnPerSecond', JSON.stringify(moneyPerSecond))
-//   localStorage.setItem('money', JSON.stringify(money))
-// }
-
-// const saveButton = document.getElementById('saveButton');
-// const saveModal = document.getElementById('saveModal');
-// const confirmSave = document.getElementById('confirmSave');
-// const cancelSave = document.getElementById('cancelSave');
-
-// // When the "Save" button is clicked, show the modal
-// saveButton.addEventListener('click', function () {
-//   saveModal.style.display = 'block'; // Show the modal
-// });
-
-// // When the user clicks "Yes, Save", close the modal and confirm save
-// confirmSave.addEventListener('click', function () {
-//   saveModal.style.display = 'none'; // Hide the modal
-//   alert("Save confirmed!"); // You can replace this with actual save logic
-//   save()
-// });
-
-// // When the user clicks "Cancel", close the modal
-// cancelSave.addEventListener('click', function () {
-//   saveModal.style.display = 'none'; // Hide the modal
-//   alert("Save cancelled."); // Optionally show a message for cancellation
-// });
-
-// // Close the modal if the user clicks outside of the modal content
-// window.addEventListener('click', function (event) {
-//   if (event.target == saveModal) {
-//     saveModal.style.display = 'none';
-//   }
-//   if (event.target == loadModal) {
-//     loadModal.style.display = 'none';
-//   }
-// });
-
-// const loadButton = document.getElementById('loadButton');
-// const loadModal = document.getElementById('loadModal');
-// const confirmLoad = document.getElementById('confirmLoad');
-// const cancelLoad = document.getElementById('cancelLoad');
-
-// loadButton.addEventListener('click', function () {
-//   loadModal.style.display = 'block'; // Show the load modal
-// });
-
-// confirmLoad.addEventListener('click', function () {
-//   loadModal.style.display = 'none'; // Hide the modal
-//   alert("Load confirmed!"); // You can replace this with actual load logic
-//   load()
-// });
-
-// cancelLoad.addEventListener('click', function () {
-//   loadModal.style.display = 'none'; // Hide the modal
-//   alert("Load cancelled.");
-// });
-
-// function load() {
-//   upgrades.map((upgrade) => {
-//     const savedValues = JSON.parse(localStorage.getItem(upgrade.name))
-
-//     upgrade.parsedCost = savedValues.parsedCost
-
-//     upgrade.level.innerHTML = savedValues.parsedLevel
-//     upgrade.cost.innerHTML = upgrade.parsedCost.toFixed(2)
-//   })
-
-//   moneyPerClick = JSON.parse(localStorage.getItem('mnPerClick'))
-//   moneyPerSecond = JSON.parse(localStorage.getItem('mnPerSecond'))
-//   money = JSON.parse(localStorage.getItem('money'))
-
-//   moneyElement.textContent = money.toFixed(2);
-//   moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
-// }
 
 window.buyUpgrade = buyUpgrade;
-window.save = saveGameState;
-window.load = loadGameState;
+window.save = save;
+window.load = load;
 window.incrementLev = incrementLev;
 
 function setActiveButton(activeBtn, disabledBtns) {
