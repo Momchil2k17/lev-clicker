@@ -46,9 +46,7 @@ let levImgContainter = document.querySelector('.lev-container')
 function incrementLev(event) {
   money += moneyPerClick;
   updateMoneyDisplay();
-  const clickingSound = new Audio('audio/click.mp3')
-  clickingSound.volume = 0.1
-  clickingSound.play();
+ 
   const x = event.offsetX
   const y = event.offsetY
 
