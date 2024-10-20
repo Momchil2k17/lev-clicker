@@ -96,14 +96,14 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-height: 400px;
-        width: 285px;
+        max-height: 200px;
+        width: 345px;
         padding: 10px 2.5px;
         overflow-y: scroll;
     }
     .multiplier{
         text-align: center;
-        width: 195px;
+        width: 205px;
         border: 2px solid #D6ED17;
         background-color: #555;
         border-radius: 2.5px;
@@ -210,8 +210,8 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 195px;
-        height: 30px;
+        width: 205px;
+        height: 40px;
         border: 2px solid #D6ED17;
         border-radius: 2.5px;
         padding: 5px 10px;
