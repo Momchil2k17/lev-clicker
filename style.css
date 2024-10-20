@@ -59,6 +59,7 @@
         animation: fade-up 1s;
     }
     body {
+        overflow: hidden;
         display: grid;
         place-items: center;
         font-size: 12px;
