@@ -225,7 +225,7 @@ confirmSave.addEventListener('click', function () {
 
 // When the user clicks "Cancel", close the modal
 cancelSave.addEventListener('click', function () {
-  saveModal.style.display = 'none'; // Hide the modal
+  saveModal.style.display = 'none'; 
   alert("Save cancelled."); // Optionally show a message for cancellation
 });
 

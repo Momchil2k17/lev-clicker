@@ -103,6 +103,7 @@ export const upgrades = [
       costMultiplier: 1.15,
       mPS: 100
     },
+    
   
   ]
 
