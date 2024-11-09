@@ -2,7 +2,7 @@
 import { defaultUpgradeValues } from "./constants/defaultValues.js";
 import { powerUpIntervals, upgrades } from "./constants/upgrades.js";
 
-//money per sec function
+// money per sec function
 let money = 0;
 let moneyPerSecond = 0;
 let moneyPerClick = 1;
@@ -28,7 +28,7 @@ function updateMoneyDisplay() {
   // }, 100); // Match this duration with your CSS animation duration
 }
 
-// Increment money by money per second
+// increment money by money per second
 function incrementMoney() {
   money += moneyPerSecond / 10;
   updateMoneyDisplay();
@@ -36,7 +36,7 @@ function incrementMoney() {
 }
 
 function updateTitle() {
-  document.title = `${Math.floor((money)).toLocaleString()} лева`; // Update title with current money
+  document.title = `${Math.floor((money)).toLocaleString()} лева`; // inline title update
 }
 
 let levImgContainter = document.querySelector('.lev-container')
@@ -70,7 +70,7 @@ const divTimeout = (div) => {
     div.remove()
   }, 800)
 }
-// Run the increment function every second
+// title and incremention updates on 1 sec
 setInterval(incrementMoney, 100);
 setInterval(updateTitle, 1000);
 
@@ -98,8 +98,8 @@ function setUpgradeInfo(){
       });
     }
   } else {
-    // Logic for selling (showing sell price)
-    const sellPriceMultiplier = 0.25; // 50% refund value
+    // logic for selling (showing sell price)
+    const sellPriceMultiplier = 0.25; 
     if(getActiveButtonForNums() === 1){
       upgrades.map((upgrade) => {
         document.querySelector(`.plusOrMinus${upgrade.name}`).innerText='-'
@@ -124,11 +124,10 @@ function setUpgradeInfo(){
 function updateUpgradeAffordability() {
   upgrades.forEach((upgrade) => {
     let totalCost =  upgrade.parsedCost * upgrade.costMultiplier ** (getActiveButtonForNums() - 1);
-    const upgradeElement = document.getElementById(`${upgrade.name}-upgrade`); // Assuming this refers to the DOM element of the upgrade
+    const upgradeElement = document.getElementById(`${upgrade.name}-upgrade`); 
     const upgradeCost = upgrade.parsedCost;
     
     if(getActiveButton() === 'buy'){
-    // Check if the player can afford this upgrade
     if (money >= totalCost) {
       upgradeElement.classList.remove('disabled');
     } else {
@@ -151,7 +150,7 @@ function buyUpgrade(upgrade) {
   })
 
   if (isBuying) {
-    // Buying logic (you already have this)
+    // buy
     let totalCost = mU.parsedCost * mU.costMultiplier ** (multiplier - 1);
     if (money >= totalCost) {
       const upgradeSound = new Audio('audio/upgrade.mp3');
@@ -166,11 +165,11 @@ function buyUpgrade(upgrade) {
       updateMoneyDisplay();
     }
   }else {
-    // Selling logic
+    // sell 
     const currentLevel = parseInt(mU.level.innerHTML);
     
     if (currentLevel >= multiplier) {
-      const sellPriceMultiplier = 0.25; // Sell back at 50% of the current cost
+      const sellPriceMultiplier = 0.25; 
       let totalSellValue = (mU.parsedCost * mU.costMultiplier ** (multiplier - 1)) * sellPriceMultiplier;
 
       money += totalSellValue;
@@ -187,12 +186,9 @@ function buyUpgrade(upgrade) {
   setUpgradeInfo()
 }
 
-// Modified save and load functions with autosave
 function save() {
-  // Clear all previous data in localStorage to avoid outdated data
   localStorage.clear();
 
-  // Save each upgrade's level and cost
   upgrades.forEach((upgrade) => {
     const obj = JSON.stringify({
       parsedLevel: parseFloat(upgrade.level.innerHTML),
@@ -202,14 +198,12 @@ function save() {
     localStorage.setItem(upgrade.name, obj);
   });
 
-  // Save game stats
   localStorage.setItem('mnPerClick', JSON.stringify(moneyPerClick));
   localStorage.setItem('mnPerSecond', JSON.stringify(moneyPerSecond));
   localStorage.setItem('money', JSON.stringify(money));
 }
 
 function load() {
-  // Load each upgrade's saved data if available
   upgrades.forEach((upgrade) => {
     const savedValues = JSON.parse(localStorage.getItem(upgrade.name));
     if (savedValues) {
@@ -219,7 +213,6 @@ function load() {
     }
   });
 
-  // Load game stats if available
   moneyPerClick = JSON.parse(localStorage.getItem('mnPerClick')) || 1;
   moneyPerSecond = JSON.parse(localStorage.getItem('mnPerSecond')) || 0;
   money = JSON.parse(localStorage.getItem('money')) || 0;
@@ -228,10 +221,10 @@ function load() {
   moneyPerSecondElement.textContent = moneyPerSecond.toFixed(2);
 }
 
-// Set up autosave by calling save every 5 seconds
-setInterval(save, 5000); // 5000 ms = 5 seconds
+// autosave on 5 sec
+setInterval(save, 5000);
 
-// Load game data automatically when the page loads
+// load game data automatically when the page loads
 window.addEventListener('load', load);
 
 // function save() {
@@ -365,7 +358,7 @@ function getActiveButton() {
   } else if (sellBtn.classList.contains('active')) {
       return 'sell';
   }
-  return null; // No button is active
+  return null; 
 }
 
 const btn1 = document.querySelector(".btn1");
@@ -401,20 +394,19 @@ btn1.addEventListener("click", () => {
       } else if (btn100.classList.contains('active')) {
           return 100;
       }
-      return null; // No button is active
+      return null; 
   }
 
   function formatNumber(num) {
-    const suffixes = ['', 'M', 'B', 'T', 'Qa', 'Qi']; // Start at 'M' (Million)
-    let tier = Math.log10(num) / 3 | 0; // Determine the tier (millions, billions, etc.)
+    const suffixes = ['', 'M', 'B', 'T', 'Qa', 'Qi']; 
+    let tier = Math.log10(num) / 3 | 0;
 
-    // If the number is below 1 million, return the number without formatting
+    
     if (num < 1_000_000) return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-    const suffix = suffixes[tier - 1]; // Subtract 1 to skip 'K'
-    const scale = Math.pow(10, tier * 3); // Scale the number down to the appropriate size
-    const scaled = num / scale; // Divide the number by the scale
+    const suffix = suffixes[tier - 1]; 
+    const scale = Math.pow(10, tier * 3);
+    const scaled = num / scale; 
 
-    // Return the scaled number with two decimal places and append the suffix
     return scaled.toFixed(2) + suffix;
 }
