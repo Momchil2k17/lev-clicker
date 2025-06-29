@@ -6,7 +6,7 @@
 
 ## Overview
 
-**LevClicker** is a clicker game where players collect "levs," the official currency of Bulgaria. Inspired by the popular **Cookie Clicker**, this game showcases modern web development practices, including DOM manipulation, reusable HTML templates, and responsive design. With each click, players earn levs, unlock upgrades, and progress through an engaging and rewarding experience. The game also supports scaling upgrades (1x, 10x, 100x), adding depth to the gameplay.
+**LevClicker** is a clicker game where players collect "levs," the official currency of Bulgaria. Inspired by the popular **Cookie Clicker**, this game showcases modern web development practices, including DOM manipulation, reusable HTML templates, and responsive design. With each click, players earn levs, unlock upgrades, and progress through an engaging and rewarding experience. The game also supports scaling upgrades (1x, 10x, 100x), adding depth to the gameplay. 
 
 - **Live Version**: [LevClicker Game](https://momchil2k17.github.io/lev-clicker/)
 - **Source Code**: [LevClicker Repository](https://github.com/Momchil2k17/levclicker)
