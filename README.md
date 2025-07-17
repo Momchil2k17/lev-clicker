@@ -11,7 +11,7 @@
 - **Live Version**: [LevClicker Game](https://momchil2k17.github.io/lev-clicker/)
 - **Source Code**: [LevClicker Repository](https://github.com/Momchil2k17/levclicker)
  
----      
+---       
 
 ## Project Structure
 
